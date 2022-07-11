@@ -3,7 +3,7 @@ const crearNuevaLinea = (nombre,email) => {
     const linea = document.createElement("tr");
     const contenido =`<tr>
         <td class="td" data-td>${nombre}</td>
-        <td>{${email}}</td>
+        <td>${email}</td>
         <td>
             <ul class="table__button-control">
                 <li>
@@ -29,8 +29,6 @@ const crearNuevaLinea = (nombre,email) => {
 
 const table = document.querySelector("[data-table]");
 
-const http = new XMLHttpRequest();
-
 //Abrir http (metodo, url);
 
 //CRUD - Método HHTP
@@ -39,13 +37,29 @@ const http = new XMLHttpRequest();
 //Update - PUT/PATH 
 //Delete - DELETE
 
+function listaCliente = () => {
+    const promise = new Promise((resolve,reject) = {
+        const http = new XMLHttpRequest();
+        http.open("GET","http://localhost:3000/perfil");
+        http.send();
+        http.onload = () => {
+            const data = JSON.parse(http.response);
 
-http.open("GET","http://localhost:3000/perfil");
-http.send();
-http.onload = () => {
-    const data = JSON.parse(http.response);
-    data.forEach(perfil => {
-        const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
-        table.appendChild(nuevaLinea);      
+            if(http.status >= 400){
+                reject(response);
+            }
+            else{
+                resolve(response);
+            }
+        };
     });
+
+    return promise;
 };
+
+
+
+data.forEach(perfil => {
+    const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
+    table.appendChild(nuevaLinea);      
+});
